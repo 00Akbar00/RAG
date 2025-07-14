@@ -1,15 +1,96 @@
-version: "3.8"
-
 services:
   app:
+    container_name: discord_app
     build:
       context: .
-      dockerfile: Dockerfile
-    container_name: ai_model
-    ports:
-      - "3000:8000"
+      dockerfile: docker/php/Dockerfile
+    image: laravel_app:latest
     volumes:
-      - .:/app
-      - ./public:/app/public
-    command: >
-      uvicorn app.main:app --reload --host 0.0.0.0 --port 8000 --log-level info
+      - ./src:/var/www/html
+    env_file:
+      - ./src/.env
+    depends_on:
+      - db
+      - kafka
+    networks:
+      - laravel
+
+  web:
+    container_name: laravel_nginx
+    image: nginx:stable-alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./src:/var/www/html:ro
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - app
+    networks:
+      - laravel
+
+  db:
+    container_name: discord_db
+    image: mysql:8.0
+    ports:
+      - "3306:3306"
+    env_file:
+      - ./src/.env
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - laravel
+
+  adminer:
+    container_name: discord_adminer
+    image: adminer:latest
+    restart: always
+    ports:
+      - "8080:8080"
+    networks:
+      - laravel
+
+  zookeeper:
+    container_name: kafka_zookeeper
+    image: confluentinc/cp-zookeeper:7.5.3
+    restart: always
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - "2181:2181"
+    networks:
+      - laravel
+
+  kafka:
+    container_name: kafka_broker
+    image: confluentinc/cp-kafka:7.5.3
+    restart: always
+    depends_on:
+      - zookeeper
+    ports:
+      - "9092:9092"
+    env_file:
+      - ./kafka-service/.env
+    networks:
+      - laravel
+
+  kafka_node:
+    container_name: kafka_node
+    build:
+      context: ./kafka-service
+      dockerfile: ../docker/node/Dockerfile
+    volumes:
+      - ./kafka-service:/app
+    env_file:
+      - ./kafka-service/.env
+    depends_on:
+      - kafka
+    networks:
+      - laravel
+
+volumes:
+  db_data:
+
+networks:
+  laravel:
+    driver: bridge
