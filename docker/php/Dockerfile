@@ -1,32 +1,35 @@
 FROM php:8.2-fpm
 
-# system deps + PHP extensions
+# ── Install system dependencies and PHP extensions ──
 RUN apt-get update \
  && apt-get install -y libpng-dev libonig-dev libxml2-dev zip unzip \
  && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
 
-# Composer CLI
+# ── Install Composer ──
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
+# ── Set working directory ──
 WORKDIR /var/www/html
 
-# 1) Copy only composer files and install without scripts
-COPY src/composer.json src/composer.lock ./
+# ── 1. Copy composer files and install dependencies ──
+COPY laravel-app/composer.json laravel-app/composer.lock ./
 RUN composer install \
     --no-dev \
     --optimize-autoloader \
     --no-scripts
 
-# 2) Copy all your application source (now artisan is present)
-COPY src/ .
+# ── 2. Copy entire Laravel application ──
+COPY laravel-app/ .
 
-# 3) Now run the “package discover” and regenerate optimized autoload
+# ── 3. Run Laravel post-install setup ──
 RUN php artisan package:discover --ansi \
  && composer dump-autoload --optimize
 
-# set permissions
+# ── 4. Set permissions ──
 RUN chown -R www-data:www-data /var/www/html \
  && chmod -R 755 /var/www/html
 
+# ── 5. Expose PHP-FPM port ──
 EXPOSE 9000
+
 CMD ["php-fpm"]

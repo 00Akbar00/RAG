@@ -88,9 +88,28 @@ services:
     networks:
       - laravel
 
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: ../docker/js/Dockerfile
+    container_name: discord_frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - VITE_API_URL=http://localhost/api  
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    networks:
+      - laravel
+      - frontend_network
+
 volumes:
   db_data:
 
 networks:
   laravel:
+    driver: bridge
+  frontend_network:
     driver: bridge
