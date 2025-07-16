@@ -1,9 +1,14 @@
+import { Routes, Route } from 'react-router-dom';
+import AuthPage from './pages/AuthPage';
+import Dashboard from './pages/Dashboard';
+
 function App() {
-    return (
-      <div>
-        <h1>Hello from Vite + React inside Docker!</h1>
-      </div>
-    )
-  }
-  
-  export default App
+  return (
+    <Routes>
+      <Route path="/" element={<AuthPage />} />
+      <Route path="/dashboard" element={<Dashboard />} />
+    </Routes>
+  );
+}
+
+export default App;

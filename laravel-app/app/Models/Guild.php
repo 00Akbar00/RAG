@@ -12,6 +12,7 @@ class Guild extends Model
 {
     use HasFactory;
 
+    protected $primaryKey = 'id';
     protected $table = 'guilds';
 
     // Use UUIDs for primary keys
@@ -19,6 +20,7 @@ class Guild extends Model
     public $incrementing = false;
 
     protected $fillable = [
+        'id',
         'name',
         'icon_url',
         'owner_id',

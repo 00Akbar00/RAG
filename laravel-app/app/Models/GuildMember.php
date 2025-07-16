@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\Pivot;
+use App\Models\User;
 
 class GuildMember extends Pivot
 {

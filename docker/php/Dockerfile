@@ -2,8 +2,14 @@ FROM php:8.2-fpm
 
 # ── Install system dependencies and PHP extensions ──
 RUN apt-get update \
- && apt-get install -y libpng-dev libonig-dev libxml2-dev zip unzip \
+ && apt-get install -y libfreetype6-dev libjpeg-dev libpng-dev libonig-dev libxml2-dev zip unzip \
+ && docker-php-ext-configure gd --with-freetype --with-jpeg \
  && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
+
+
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
+ && apt-get install -y nodejs \
+ && npm install -g npm
 
 # ── Install Composer ──
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer

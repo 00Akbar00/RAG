@@ -1,0 +1,106 @@
+.chatPanel {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: #36393f;
+}
+
+.topBar {
+  height: 48px;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #202225;
+  box-shadow: 0 1px 0 rgba(0,0,0,0.2);
+  flex-shrink: 0;
+}
+
+.channelIcon {
+  color: #72767d;
+  font-size: 24px;
+}
+
+.channelName {
+  margin-left: 8px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.chatContent {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 16px;
+}
+
+.message {
+  display: flex;
+  margin-bottom: 16px;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 16px;
+  flex-shrink: 0;
+}
+
+.messageBody {
+  display: flex;
+  flex-direction: column;
+}
+
+.messageHeader {
+  display: flex;
+  align-items: baseline;
+  margin-bottom: 4px;
+}
+
+.username {
+  color: #5865f2;
+  font-weight: 500;
+  margin-right: 8px;
+}
+
+.timestamp {
+  color: #72767d;
+  font-size: 12px;
+}
+
+.text {
+  color: #dcddde;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.chatInputWrapper {
+    padding: 0 16px 24px 16px;
+}
+
+.chatInput {
+    background-color: #40444b;
+    border-radius: 8px;
+    padding: 0 16px;
+    display: flex;
+    align-items: center;
+}
+
+.chatInput input {
+  width: 100%;
+  height: 44px;
+  background: none;
+  border: none;
+  color: #dcddde;
+  font-size: 16px;
+}
+
+.chatInput input:focus {
+  outline: none;
+}
+
+.addIcon {
+    color: #b9bbbe;
+    font-size: 24px;
+    margin-right: 16px;
+    cursor: pointer;
+}
