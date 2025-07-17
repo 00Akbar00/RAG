@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { signupUser } from '../store/authSlice';
 import styles from '../styles/SignUpForm.module.css';
 import { FaUser, FaEnvelope, FaLock, FaEye, FaEyeSlash } from 'react-icons/fa';
 
@@ -7,53 +9,45 @@ function SignUpForm({ toggleView }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [localError, setLocalError] = useState('');          // ← new
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [error, setError] = useState('');
+
+  const dispatch = useDispatch();
+  const { isLoading, error: serverError } = useSelector((state) => state.auth);
 
   const handleSignUp = async (e) => {
     e.preventDefault();
-    setError('');
 
-    // Check if passwords match
+    // 1) Front‑end mismatch check
     if (password !== confirmPassword) {
-      setError("Passwords don't match. Please try again.");
+      setLocalError("Passwords don't match.");
       return;
     }
+    setLocalError('');
 
-    if (!email || !password || !username) {
-      setError('Please complete all fields.');
-      return;
-    }
-
+    // 2) Dispatch the thunk, including confirmPassword
     try {
-      console.log('Creating account with:', { username, email, password });
-      const response = await fetch('/api/signup', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, email, password }),
-      });
-
-      if (!response.ok) {
-        throw new Error('Could not create account. Please try again.');
+      const result = await dispatch(
+        signupUser({ username, email, password, confirmPassword })
+      );
+      if (signupUser.fulfilled.match(result)) {
+        toggleView(); // Switch to login on success
       }
-      
-      const data = await response.json();
-      console.log('Sign up successful:', data);
-      toggleView();
-
-    } catch (err) {
-      setError(err.message);
-      console.error('Sign up failed:', err);
+    } catch {
+      // any server-side errors will land in serverError
     }
   };
 
   return (
     <div className={styles.formContainer}>
       <h2>Create an Account</h2>
-      
-      {error && <p className={styles.error}>{error}</p>}
-      
+
+      {/* show either local mismatch error or backend message */}
+      {(localError || serverError) && (
+        <p className={styles.error}>{localError || serverError}</p>
+      )}
+
       <form onSubmit={handleSignUp}>
         <label htmlFor="username">USERNAME</label>
         <div className={styles.inputGroup}>
@@ -89,12 +83,14 @@ function SignUpForm({ toggleView }) {
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-           <span onClick={() => setShowPassword(!showPassword)} className={styles.eyeIcon}>
+          <span
+            onClick={() => setShowPassword(!showPassword)}
+            className={styles.eyeIcon}
+          >
             {showPassword ? <FaEyeSlash /> : <FaEye />}
           </span>
         </div>
 
-        {/* New Confirm Password Field */}
         <label htmlFor="confirmPassword">CONFIRM PASSWORD</label>
         <div className={styles.inputGroup}>
           <FaLock className={styles.icon} />
@@ -105,12 +101,21 @@ function SignUpForm({ toggleView }) {
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
           />
-           <span onClick={() => setShowConfirmPassword(!showConfirmPassword)} className={styles.eyeIcon}>
+          <span
+            onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+            className={styles.eyeIcon}
+          >
             {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
           </span>
         </div>
         
-        <button type="submit" className={styles.signupButton}>Continue</button>
+        <button
+          type="submit"
+          className={styles.signupButton}
+          disabled={isLoading}
+        >
+          {isLoading ? 'Creating Account...' : 'Continue'}
+        </button>
       </form>
       
       <p className={styles.switchView}>
