@@ -35,6 +35,7 @@
   font-size: 18px;
   font-weight: bold;
   transition: all 0.2s ease;
+  object-fit: cover; /* This will fix the stretching issue for images and GIFs */
 }
 
 .serverIconWrapper:hover .serverIcon {

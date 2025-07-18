@@ -4,7 +4,7 @@ namespace App\Services\Auth;
 
 use App\Exceptions\InternalServerError;
 use App\Models\User;
-use Str;
+use Illuminate\Support\Str;
 
 class RegisterService
 {
@@ -28,7 +28,7 @@ class RegisterService
                 'avatar' => null,
             ]);
 
-            $avatarPath = $this->avatarService->generateAvatar($user);
+            $avatarPath = $this->avatarService->generateOrUploadAvatar($user);
             $user->avatar = $avatarPath;
             $user->save();
             return $user;

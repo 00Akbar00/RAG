@@ -10,4 +10,8 @@ Route::post('/login', [LoginController::class, 'login'])->name('login');
 
 Route::middleware('auth:api')->group(function () {
     Route::post('/guild', [GuildController::class, 'createGuild']);
+    Route::get('/user/guilds', [GuildController::class, 'getAllGuilds']);
+    Route::get('/guild/{guildId}', [GuildController::class, 'getGuild']);
+    Route::post('/guild/{guild}', [GuildController::class, 'update']);
+    Route::delete('/guild/{guild}', [GuildController::class, 'deleteGuild']);
 });

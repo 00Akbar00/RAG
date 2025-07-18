@@ -1,16 +1,13 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import ServerList from '../components/dashboard/ServerList';
 import ChannelPanel from '../components/dashboard/ChannelPanel';
 import ChatPanel from '../components/dashboard/ChatPanel';
+import CreateServerModal from '../components/dashboard/CreateServerModal';
+import { setActiveServer } from '../store/serverSlice';
 import styles from '../styles/Dashboard.module.css';
 
 // Mock Data
-const mockServers = [
-  { id: '1', name: 'My Gaming Server', imageUrl: 'https://via.placeholder.com/50/7289DA/FFFFFF?text=G' },
-  { id: '2', name: 'Study Group', imageUrl: 'https://via.placeholder.com/50/43B581/FFFFFF?text=S' },
-  { id: '3', name: 'Art Club', imageUrl: 'https://via.placeholder.com/50/FAA61A/FFFFFF?text=A' },
-];
-
 const mockChannels = {
   '1': [
     { type: 'category', name: 'TEXT CHANNELS' },
@@ -36,10 +33,17 @@ const mockMessages = {
     '201': [{ user: 'Professor', avatar: '', timestamp: 'Yesterday at 5:30 PM', text: 'The exam is next week.' }],
 }
 
-
 function Dashboard() {
-  const [activeServer, setActiveServer] = useState(mockServers[0].id);
-  const [activeChannel, setActiveChannel] = useState(mockChannels[activeServer][1].id);
+  const dispatch = useDispatch();
+  const { servers, activeServer } = useSelector((state) => state.servers);
+  const [activeChannel, setActiveChannel] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  useEffect(() => {
+    const currentChannels = mockChannels[activeServer] || [];
+    const firstChannel = currentChannels.find(c => c.type === 'text');
+    setActiveChannel(firstChannel ? firstChannel.id : null);
+  }, [activeServer]);
 
   const channels = mockChannels[activeServer] || [];
   const channelDetails = channels.find(c => c.id === activeChannel);
@@ -47,9 +51,10 @@ function Dashboard() {
   return (
     <div className={styles.dashboard}>
       <ServerList 
-        servers={mockServers}
+        servers={servers}
         activeServer={activeServer}
-        setActiveServer={setActiveServer}
+        setActiveServer={(id) => dispatch(setActiveServer(id))}
+        onAddServerClick={() => setIsModalOpen(true)}
       />
       <ChannelPanel 
         channels={channels}
@@ -59,6 +64,10 @@ function Dashboard() {
       <ChatPanel 
         channel={channelDetails}
         messages={mockMessages[activeChannel] || []}
+      />
+      <CreateServerModal 
+        isOpen={isModalOpen}
+        onRequestClose={() => setIsModalOpen(false)}
       />
     </div>
   );

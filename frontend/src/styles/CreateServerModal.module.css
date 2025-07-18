@@ -1,0 +1,166 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.75);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal {
+  background-color: #36393f;
+  color: #dcddde;
+  border-radius: 8px;
+  width: 440px;
+  max-width: 100%;
+  padding: 24px;
+  position: relative;
+  outline: none;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.modalContent h2 {
+  font-size: 24px;
+  font-weight: 700;
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 8px;
+}
+
+.modalContent p {
+  font-size: 14px;
+  color: #b9bbbe;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.closeButton {
+    background: transparent;
+    border: none;
+    color: #b9bbbe;
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.closeButton:hover {
+    color: #fff;
+}
+
+.uploadContainer {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.uploadLabel {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 2px dashed #4f545c;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: border-color 0.2s;
+  position: relative;
+}
+
+.uploadLabel:hover {
+  border-color: #5865f2;
+}
+
+.uploadIcon {
+  text-align: center;
+  color: #b9bbbe;
+}
+
+.uploadIcon svg {
+  font-size: 24px;
+}
+
+.uploadIcon span {
+  display: block;
+  font-size: 10px;
+  font-weight: 700;
+  margin-top: 4px;
+}
+
+.imagePreview {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.inputLabel {
+  font-size: 12px;
+  font-weight: 600;
+  color: #b9bbbe;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.inputField {
+  width: 100%;
+  padding: 10px;
+  background-color: #202225;
+  border: 1px solid #202225;
+  border-radius: 3px;
+  color: #dcddde;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+.inputField:focus {
+  border-color: #5865f2;
+  outline: none;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  background-color: #2f3136;
+  padding: 16px;
+  margin: 24px -24px -24px;
+}
+
+.backButton, .createButton {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 3px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.backButton {
+  background: transparent;
+  color: #fff;
+}
+.backButton:hover{
+    text-decoration: underline;
+}
+
+.createButton {
+  background-color: #5865f2;
+  color: #fff;
+  transition: background-color 0.2s;
+}
+
+.createButton:hover {
+  background-color: #4752c4;
+}

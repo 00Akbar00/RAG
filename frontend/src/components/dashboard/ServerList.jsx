@@ -1,6 +1,7 @@
 import styles from '../../styles/ServerList.module.css';
+import AddServerIcon from './AddServerIcon';
 
-function ServerList({ servers, activeServer, setActiveServer }) {
+function ServerList({ servers, activeServer, setActiveServer, onAddServerClick }) {
   return (
     <div className={styles.serverList}>
       {/* Direct Message Icon */}
@@ -22,6 +23,8 @@ function ServerList({ servers, activeServer, setActiveServer }) {
           <img src={server.imageUrl} alt={server.name} className={styles.serverIcon} />
         </div>
       ))}
+      
+      <AddServerIcon onClick={onAddServerClick} />
     </div>
   );
 }
