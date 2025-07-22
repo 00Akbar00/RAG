@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { loginUser } from '../store/authSlice';
+import { loginUser, clearError } from '../store/authSlice';
 import styles from '../styles/LoginForm.module.css';
 import { FaEnvelope, FaLock, FaEye, FaEyeSlash } from 'react-icons/fa';
 
@@ -14,6 +14,11 @@ function LoginForm({ toggleView }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { isLoading, error: reduxError } = useSelector((state) => state.auth);
+
+  // Clear any previous errors when component mounts
+  useEffect(() => {
+    dispatch(clearError());
+  }, [dispatch]);
 
   // This effect listens for changes in the error from Redux
   useEffect(() => {

@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Channel extends Model
 {
     use HasFactory;
-
+    protected $primaryKey = 'id';
     protected $table = 'channels';
 
     // Use UUIDs for primary keys
@@ -23,6 +23,7 @@ class Channel extends Model
     public $timestamps = true;
 
     protected $fillable = [
+        'id',
         'guild_id',
         'category_id',
         'type',
@@ -36,5 +37,20 @@ class Channel extends Model
     public function guild(): BelongsTo
     {
         return $this->belongsTo(Guild::class, 'guild_id');
+    }
+
+    public function messages()
+    {
+        return $this->hasMany(ChannelMessage::class);
+    }
+
+    public function threads()
+    {
+        return $this->hasMany(Thread::class);
+    }
+
+    public function members()
+    {
+        return $this->hasMany(ChannelMember::class);
     }
 }

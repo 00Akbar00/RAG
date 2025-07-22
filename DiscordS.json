@@ -1,0 +1,597 @@
+{
+	"info": {
+		"_postman_id": "8d68a00b-84e7-4a80-9b85-8451d609cb4b",
+		"name": "Discord",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "44703525",
+		"_collection_link": "https://akbar-8874446.postman.co/workspace/Akbar's-Workspace~21f9e7dd-7595-46a2-8a94-62566b799056/collection/44703525-8d68a00b-84e7-4a80-9b85-8451d609cb4b?source=collection_link"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"user_name\":\"jannat\",\n    \"email\":\"fatimatariq0802+7@gmail.com\",\n    \"password\":\"12345678\",\n    \"password_confirmation\":\"12345678\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/register",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\":\"fatimatariq0802+7@gmail.com\",\n    \"password\":\"12345678\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Guild",
+			"item": [
+				{
+					"name": "Create Guild",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "general",
+									"type": "text"
+								},
+								{
+									"key": "icon_url",
+									"type": "file",
+									"src": "/Users/fatimatariq/Downloads/1247.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/guild",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"guild"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllGuilds",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/user/guilds",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"user",
+								"guilds"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getGuild",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/guild/322980d5-f3b6-4b98-aec0-08a39726296e",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"guild",
+								"322980d5-f3b6-4b98-aec0-08a39726296e"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateGuild",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "_method",
+								"value": "PUT",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "jannat",
+									"type": "text"
+								},
+								{
+									"key": "icon_url",
+									"type": "file",
+									"src": "/Users/fatimatariq/Downloads/gif1.gif"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/guild/22f4e896-f77b-4e80-bcdb-8ef3e7f63434",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"guild",
+								"22f4e896-f77b-4e80-bcdb-8ef3e7f63434"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteGuild",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "_method",
+								"value": "PUT",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "",
+									"type": "file",
+									"src": [],
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/guild/fc3d91e6-6306-4ac2-8b17-3c21b5b1dd23",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"guild",
+								"fc3d91e6-6306-4ac2-8b17-3c21b5b1dd23"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Category",
+			"item": [
+				{
+					"name": "CreateCategory",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Text Channels\",\n    \"guild_id\": \"80efc761-f3cc-4ddd-bff5-06e94c65730a\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAllCategory",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/category/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"category",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateCategory",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"General Chat\",\n    \"position\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/category/{categoryId}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"category",
+								"{categoryId}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteCategory",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Channel",
+			"item": [
+				{
+					"name": "GetAllChannel",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/channel/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"channel",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CreateChannel",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"announcements\",\n    \"guild_id\": \"c8090a62-e038-4132-a623-640560633dbe\",\n    \"category_id\": \"a1b2c3d4-e5f6-7890-1234-567890abcdef\",\n    \"type\": \"announcement\",\n    \"topic\": \"Important updates and news for the community.\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/channel",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"channel"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CreateChannelWithCategory",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"general\",\n    \"type\": \"text\",\n    \"guild_id\": \"your-guild-id-here\",\n    \"category_id\": \"your-category-id-here\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/channel",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"channel"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "general",
+									"type": "text"
+								},
+								{
+									"key": "icon_url",
+									"type": "file",
+									"src": "/Users/fatimatariq/Downloads/1247.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/channel/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"channel",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost/api",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0L2FwaS9sb2dpbiIsImlhdCI6MTc1MjY1NDE0OSwiZXhwIjoxNzUyNjU3NzQ5LCJuYmYiOjE3NTI2NTQxNDksImp0aSI6ImpCMWZwVUZ3bWtMdWxyZnQiLCJzdWIiOiJjYWU3MzA3OC01YTA5LTQ0YzMtYmQwOC0xZTAzN2NmMzE0ZTciLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3IiwidXNlcl9uYW1lIjoibXVoYW1tYWQgYWtiYXIifQ.05R0J4-rt_cuQ2bQQogtN5koXDv-U0z4jweSwfENfMI",
+			"type": "string"
+		}
+	]
+}

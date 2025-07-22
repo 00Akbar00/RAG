@@ -2,11 +2,21 @@ FROM php:8.2-fpm
 
 # ── Install system dependencies and PHP extensions ──
 RUN apt-get update \
- && apt-get install -y libfreetype6-dev libjpeg-dev libpng-dev libonig-dev libxml2-dev zip unzip \
+ && apt-get install -y \
+    libfreetype6-dev \
+    libjpeg-dev \
+    libpng-dev \
+    libonig-dev \
+    libxml2-dev \
+    zip unzip \
+    librdkafka-dev \
  && docker-php-ext-configure gd --with-freetype --with-jpeg \
- && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
+ && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd \
+ # --- Install rdkafka PHP extension --- \
+ && pecl install rdkafka \
+ && docker-php-ext-enable rdkafka
 
-
+# ── Install Node.js ──
 RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
  && apt-get install -y nodejs \
  && npm install -g npm

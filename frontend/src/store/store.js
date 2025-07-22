@@ -43,5 +43,6 @@ export const store = configureStore({
 // Subscribe to store updates
 store.subscribe(() => {
   // Save the auth slice of the state to localStorage on every change
-  saveAuthState(store.getState().auth);
+  const authState = store.getState().auth;
+  saveAuthState(authState);
 });
