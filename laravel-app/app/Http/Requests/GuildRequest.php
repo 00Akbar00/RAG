@@ -5,19 +5,19 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Guild;
+use Log;
 
 class GuildRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        // For update, ensure user is the owner
-        if ($this->isMethod('put') || $this->isMethod('patch')) {
-            $guildId = $this->route('guildId');
-            $guild = Guild::find($guildId);
-            return $guild && $guild->owner_id === Auth::id();
+        $guildId = $this->route('guildId');
+        $guild = Guild::find($guildId);  
+        // Only allow the owner to update the guild
+        if ($this->route()->getName() === 'guild.update') {
+            return $guild && $guild['owner_id'] === Auth::id();
         }
-
-        return true; // Allow all for creation
+        return true;
     }
 
     public function rules(): array

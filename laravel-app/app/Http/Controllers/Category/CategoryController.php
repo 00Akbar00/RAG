@@ -24,15 +24,14 @@ class CategoryController extends Controller
         return BaseApiResponse::success($category, 'All category get successfully', 200);
     }
 
-    public function createCategory(Request $request)
+    public function createCategory(Request $request, $guildId)
     {
         $data = $request->validate([
             'name' => 'required|string|max:100',
-            'guild_id' => 'required|uuid|exists:guilds,id',
             'position' => 'sometimes|integer',
         ]);
 
-        $category = $this->categoryService->createCategory($data);
+        $category = $this->categoryService->createCategory($data, $guildId);
 
         return BaseApiResponse::success($category, 'Category created successfully', 201);
     }

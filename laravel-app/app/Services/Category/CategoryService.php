@@ -10,13 +10,13 @@ use Illuminate\Support\Facades\Log;
 
 class CategoryService
 {
-    public function createCategory(array $data): Category
+    public function createCategory(array $data, $guildId): Category
     {
         try {
             return Category::create([
                 'id' => (string) Str::uuid(),
                 'name' => $data['name'],
-                'guild_id' => $data['guild_id'],
+                'guild_id' => $guildId,
                 'position' => $data['position'] ?? 0,
             ]);
         } catch (\Throwable $e) {
