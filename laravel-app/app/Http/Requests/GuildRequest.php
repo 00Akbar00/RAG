@@ -5,18 +5,18 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Guild;
-use Log;
 
 class GuildRequest extends FormRequest
 {
     public function authorize(): bool
     {
         $guildId = $this->route('guildId');
-        $guild = Guild::find($guildId);  
-        // Only allow the owner to update the guild
-        if ($this->route()->getName() === 'guild.update') {
-            return $guild && $guild['owner_id'] === Auth::id();
+        $guild = Guild::find($guildId);
+
+        if ($this->routeIs('guild.update')) {
+            return $guild && $guild->owner_id === Auth::id();
         }
+
         return true;
     }
 
@@ -27,13 +27,18 @@ class GuildRequest extends FormRequest
             'icon_url' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ];
 
-        // For update, allow name to be optional
         if ($this->isMethod('put') || $this->isMethod('patch')) {
             $rules['name'] = 'sometimes|string|max:255';
         }
 
         return $rules;
+    }
 
-        // This message is added for the testing
+    public function payload(): array
+    {
+        return [
+            'name' => $this->input('name'),
+            'icon_url' => $this->file('icon_url'),
+        ];
     }
 }

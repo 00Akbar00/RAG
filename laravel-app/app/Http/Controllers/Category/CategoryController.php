@@ -3,56 +3,45 @@
 namespace App\Http\Controllers\Category;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CategoryRequest;
 use App\Http\Responses\BaseApiResponse;
 use App\Services\Category\CategoryService;
 use App\Models\Category;
-use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 
 class CategoryController extends Controller
 {
-    protected $categoryService;
+    public function __construct(protected CategoryService $categoryService) {}
 
-    public function __construct(CategoryService $categoryService)
+    public function getAllCategory(string $guildId)
     {
-        $this->categoryService = $categoryService;
+        $categories = $this->categoryService->getAllCategory($guildId);
+        return BaseApiResponse::success($categories, 'All categories retrieved successfully', 200);
     }
 
-    public function getAllCategory($guildId)
+    public function createCategory(CategoryRequest $request, $guildId)
     {
-        $category = $this->categoryService->getAllCategory($guildId);
-        return BaseApiResponse::success($category, 'All category get successfully', 200);
-    }
-
-    public function createCategory(Request $request, $guildId)
-    {
-        $data = $request->validate([
-            'name' => 'required|string|max:100',
-            'position' => 'sometimes|integer',
-        ]);
+        $data = $request->payload();
 
         $category = $this->categoryService->createCategory($data, $guildId);
 
         return BaseApiResponse::success($category, 'Category created successfully', 201);
     }
 
-    public function updateCategory(Request $request, $categoryId)
+    public function updateCategory(CategoryRequest $request, $categoryId)
     {
-        $data = $request->validate([
-            'name' => 'sometimes|string|max:100',
-            'position' => 'sometimes|integer',
-        ]);
+        $data = $request->payload();
 
         $category = Category::findOrFail($categoryId);
         $updatedCategory = $this->categoryService->updateCategory($category, $data);
 
-        return BaseApiResponse::success($updatedCategory, 'Category updated successfully');
+        return BaseApiResponse::success($updatedCategory, 'Category updated successfully', 200);
     }
 
     public function deleteCategory(string $categoryId)
     {
         $this->categoryService->deleteCategory($categoryId);
 
-        return BaseApiResponse::success(null, 'Category deleted successfully');
+        return BaseApiResponse::success(null, 'Category deleted successfully', 204);
     }
 }

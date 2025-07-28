@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Guild;
+
 use App\Http\Controllers\Controller;
 use App\Http\Requests\GuildRequest;
 use App\Http\Responses\BaseApiResponse;
@@ -10,12 +11,8 @@ use Illuminate\Support\Facades\Auth;
 
 class GuildController extends Controller
 {
-    protected $guildService;
 
-    public function __construct(GuildService $guildService)
-    {
-        $this->guildService = $guildService;
-    }
+    public function __construct(protected GuildService $guildService) {}
 
     // For creation
     public function createGuild(GuildRequest $request)
@@ -40,26 +37,15 @@ class GuildController extends Controller
     // For update
     public function update(GuildRequest $request, $guildId)
     {
-        $data = [
-            'name' => $request->input('name'),
-            'icon_url' => $request->file('icon_url'),
-        ];
-
+        $data = $request->payload();
         $guild = Guild::findOrFail($guildId);
-
         $updatedGuild = $this->guildService->updateGuild($guild, $data);
-
         return BaseApiResponse::success($updatedGuild, 'Guild updated successfully');
     }
 
     public function deleteGuild(Guild $guild)
     {
         $guild->delete();
-
         return BaseApiResponse::success(null, 'Guild deleted successfully');
     }
-}     
-
-
-
-
+}

@@ -1,19 +1,16 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
-use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\Auth\RegisterController;
-
 use App\Http\Controllers\Guild\GuildController;
 use App\Http\Controllers\Category\CategoryController;
 use App\Http\Controllers\Channel\ChannelController;
 use App\Http\Controllers\Channel\ChannelMessageController;
+use App\Http\Controllers\Auth\AuthController;
 
 
 // Auth
-Route::post('/register', [RegisterController::class, 'register']);
-Route::post('/login',    [LoginController::class, 'login']);
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login',    [AuthController::class, 'login']);
 
 Route::middleware('auth:api')->group(function () {
 

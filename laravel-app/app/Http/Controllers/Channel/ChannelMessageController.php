@@ -20,6 +20,7 @@ class ChannelMessageController extends Controller
     public function send(CreateMessageRequest $request)
     {
         $message = $this->service->sendMessage($request->validated());
+
         return BaseApiResponse::success($message, 'Message created', 201);
     }
 
@@ -34,12 +35,14 @@ class ChannelMessageController extends Controller
     public function editContent(UpdateMessageRequest $request, string $messageId)
     {
         $message = $this->service->updateMessage($messageId, $request->validated()['content']);
+
         return BaseApiResponse::success($message, 'Message updated');
     }
 
     public function remove(string $messageId)
     {
         $this->service->deleteMessage($messageId);
+
         return BaseApiResponse::success(null, 'Message deleted');
     }
 
